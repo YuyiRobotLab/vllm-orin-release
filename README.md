@@ -1,19 +1,42 @@
 # vLLM 0.19.0 for Jetson Orin
 
-Build vLLM 0.19.0 from source on NVIDIA Jetson Orin — **ready within 72 hours of Gemma 4 release**.
+Build and run vLLM 0.19.0 on NVIDIA Jetson Orin — **ready within 72 hours of Gemma 4 release**.
 
-## Pre-built Wheels (recommended)
+## Quick Start: Docker (recommended)
 
-Skip the build and install directly:
+No compilation needed. Pull and run:
+
+```bash
+sudo docker pull yuyirobot/vllm-orin:0.19.0
+
+sudo docker run --rm --runtime nvidia --gpus all \
+    -v /path/to/models:/models \
+    -p 8000:8000 \
+    yuyirobot/vllm-orin:0.19.0 \
+    --model /models/gemma-4-E4B-it-W4A16 \
+    --host 0.0.0.0 --port 8000 \
+    --served-model-name gemma-4-e4b \
+    --max-model-len 4096 \
+    --gpu-memory-utilization 0.65 \
+    --enable-prefix-caching
+```
+
+## Pre-built Wheels
+
+Install without Docker or compilation:
 
 ```bash
 pip install https://huggingface.co/YuyiRobot/vllm-jetson-orin/resolve/main/torch-2.10.0-cp310-cp310-linux_aarch64.whl
 pip install https://huggingface.co/YuyiRobot/vllm-jetson-orin/resolve/main/vllm-0.19.0+cu126-cp310-cp310-linux_aarch64.whl
 ```
 
+Wheels are also available in the [GitHub Releases](https://github.com/YuyiRobotLab/vllm-orin-release/releases) of this repo.
+
 See full install guide on [HuggingFace](https://huggingface.co/YuyiRobot/vllm-jetson-orin).
 
 ## Build from Source
+
+Only needed if you want to customize the build:
 
 ```bash
 git clone https://github.com/YuyiRobotLab/vllm-orin-release.git
@@ -58,6 +81,7 @@ BUILD_DIR=/mnt/ssd OUTPUT_DIR=./wheels bash build_vllm.sh
 
 ## Links
 
+- [Docker image on Docker Hub](https://hub.docker.com/r/yuyirobot/vllm-orin)
 - [Pre-built wheels on HuggingFace](https://huggingface.co/YuyiRobot/vllm-jetson-orin)
 - [vLLM upstream](https://github.com/vllm-project/vllm)
 - [Jetson AI Lab PyTorch](https://pypi.jetson-ai-lab.io/jp6/cu126)
